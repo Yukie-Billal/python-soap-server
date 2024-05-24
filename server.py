@@ -1,15 +1,11 @@
-from spyne import Application, rpc, ServiceBase, Integer, Unicode
+from spyne import Application
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 
-class HelloWorldService(ServiceBase):
-
-    @rpc(Unicode, _returns=Unicode)
-    def say_hello(ctx, name):
-        return f"Hello, {name}!"
+from app.user.service import UsersService
 
 # Create the application with the specified service
-application = Application([HelloWorldService], tns='soap_service', in_protocol=Soap11(validator="lxml"), out_protocol=Soap11())
+application = Application([UsersService], tns='soap_service', in_protocol=Soap11(validator="lxml"), out_protocol=Soap11())
 
 
 wsgi_application = WsgiApplication(application)
